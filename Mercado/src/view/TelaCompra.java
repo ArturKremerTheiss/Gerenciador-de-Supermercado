@@ -1,42 +1,49 @@
 package view;
+import model.*;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.*;
+import java.util.ArrayList;
 
 public class TelaCompra extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+    private Carrinho carrinho = new Carrinho();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TelaCompra frame = new TelaCompra();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    public TelaCompra(Usuario u) {
+        setTitle("Compra");
+        setSize(400,300);
+        setLayout(null);
 
-	/**
-	 * Create the frame.
-	 */
-	public TelaCompra() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+        JButton listar = new JButton("Listar Produtos");
+        listar.setBounds(10,10,150,30);
+        add(listar);
 
-	}
+        JTextArea area = new JTextArea();
+        area.setBounds(10,50,360,150);
+        add(area);
 
+        JButton finalizar = new JButton("Finalizar");
+        finalizar.setBounds(10,210,150,30);
+        add(finalizar);
+
+        listar.addActionListener(e -> {
+            try {
+                ArrayList<Produto> lista = new ProdutoDAO().listar();
+                area.setText("");
+
+                for (Produto p : lista) {
+                    area.append(p.getId()+" - "+p.getNome()+" R$"+p.getPreco()+"\n");
+                    carrinho.adicionar(p); // simplificado
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        finalizar.addActionListener(e -> {
+            JOptionPane.showMessageDialog(null,
+                "Total: R$ " + carrinho.total());
+        });
+
+        setVisible(true);
+    }
 }

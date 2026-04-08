@@ -1,13 +1,12 @@
 package view;
-
-import dao.ProdutoDAO;
 import model.Produto;
+import model.Usuario;
 
 import javax.swing.*;
 
 public class TelaProduto extends JFrame {
 
-    public TelaProduto() {
+    public TelaProduto(Usuario u) {
         setTitle("Produtos");
         setSize(300,250);
         setLayout(null);
@@ -37,7 +36,7 @@ public class TelaProduto extends JFrame {
                     Integer.parseInt(estoque.getText())
                 );
 
-                new ProdutoDAO().inserir(p);
+                model.Supermercado.Produto.add(p);
                 JOptionPane.showMessageDialog(null, "Salvo!");
             } catch (Exception ex) {
                 ex.printStackTrace();

@@ -1,12 +1,10 @@
-package dao;
-
 import model.Usuario;
 import java.sql.*;
 
 public class UsuarioDAO {
 
     public void inserir(Usuario u) throws Exception {
-        Connection c = conexao.conectar();
+        Connection c = Conexao.conectar();
         String sql = "INSERT INTO usuario (nome, cpf, admin) VALUES (?, ?, ?)";
 
         PreparedStatement ps = c.prepareStatement(sql);
@@ -17,7 +15,7 @@ public class UsuarioDAO {
     }
 
     public Usuario login(String nome, String cpf) throws Exception {
-        Connection c = conexao.conectar();
+        Connection c = Conexao.conectar();
         String sql = "SELECT * FROM usuario WHERE nome=? AND cpf=?";
 
         PreparedStatement ps = c.prepareStatement(sql);
